@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Periodic Table Lab – Interactive Periodic Table, Calculator and Quiz</title>
+<meta name="description" content="Free interactive periodic table with all 118 elements, search, sound, a scientific calculator, a molarity and solution calculator, and an element quiz. Made by Ibragimova Hadicha, MMT school.">
+<meta name="keywords" content="periodic table, interactive periodic table, chemistry, elements, molarity calculator, element quiz, students">
+<meta name="author" content="Ibragimova Hadicha">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d7c8f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Periodic Table Lab – Interactive Periodic Table">
+<meta property="og:description" content="All 118 elements with search, sound, calculators and a quiz. Made by Ibragimova Hadicha, MMT school.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230d7c8f'/%3E%3Ctext x='50' y='66' font-size='52' font-family='Arial' font-weight='bold' text-anchor='middle' fill='white'%3EPt%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap">
+<style>
+:root{--bg:#f3f6fa;--surf:#fff;--text:#14202e;--muted:#5d6b7c;--bd:#d8e0ea;--acc:#0d7c8f;--accfg:#fff;--sh:0 10px 40px rgba(20,32,46,.15);
+--ak:#f2a65a;--ae:#e8c547;--tm:#7fb7e6;--pt:#9fc9a2;--mt:#5fc4b0;--nm:#8fd18a;--hl:#e58fb0;--ng:#b79ae6;--ln:#e88b7a;--ac:#d46a8f;--un:#aab4c0;--tile:#14202e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1520;--surf:#142232;--text:#e6eef7;--muted:#8da0b5;--bd:#25384d;--acc:#4fd1e3;--accfg:#06212a;--sh:0 10px 40px rgba(0,0,0,.5);--tile:#07111b}}
+:root[data-theme="dark"]{--bg:#0c1520;--surf:#142232;--text:#e6eef7;--muted:#8da0b5;--bd:#25384d;--acc:#4fd1e3;--accfg:#06212a;--sh:0 10px 40px rgba(0,0,0,.5);--tile:#07111b}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font-family:Outfit,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);transition:background .3s,color .3s}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--bd);background:var(--surf)}
+h1{font-size:1.3rem;margin:0;font-weight:700;letter-spacing:-.01em}
+nav{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+nav button{background:none;border:0;padding:8px 14px;border-radius:8px;color:var(--muted);font-weight:600;transition:.2s}
+nav button:hover{color:var(--text);background:var(--bg)}
+nav button[aria-selected="true"]{background:var(--acc);color:var(--accfg)}
+.tools{display:flex;gap:8px}
+.ic{border:1px solid var(--bd);background:var(--bg);border-radius:8px;padding:7px 12px;transition:.2s}
+.ic:hover{border-color:var(--acc)}
+.ic[aria-pressed="true"]{border-color:var(--acc);color:var(--acc)}
+main{padding:20px;max-width:1500px;margin:0 auto}
+section{display:none}section.on{display:block}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.bar input[type=search]{flex:1;min-width:200px;max-width:340px;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--surf)}
+.chip{border:1px solid var(--bd);background:var(--surf);border-radius:999px;padding:5px 12px;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.chip:hover{border-color:var(--acc)}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.wrap{overflow-x:auto;padding-bottom:10px}
+#grid{display:grid;grid-template-columns:repeat(18,minmax(54px,1fr));grid-template-rows:repeat(7,auto) 14px repeat(2,auto);gap:4px;min-width:1000px}
+.el{position:relative;border:0;border-radius:6px;padding:4px 5px;text-align:left;background:var(--c);color:#10202e;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:1/1.08;transition:transform .15s,opacity .25s,filter .25s,box-shadow .15s}
+.el:hover{transform:scale(1.18);z-index:5;box-shadow:var(--sh)}
+.el .n{font-size:.62rem;opacity:.75}
+.el .s{font-size:1.25rem;font-weight:700;line-height:1;text-align:center}
+.el .nm{font-size:.56rem;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.el .m{font-size:.54rem;text-align:center;opacity:.7}
+.el.dim{opacity:.12;filter:grayscale(.8)}
+.ph{border-radius:6px;border:1px dashed var(--bd);color:var(--muted);font-size:.65rem;display:flex;align-items:center;justify-content:center}
+.hint{grid-column:3/13;grid-row:1/4;color:var(--muted);font-size:.9rem;align-self:center;padding:0 12px}
+.hint b{font-size:1.5rem;color:var(--text);display:block}
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+h2{margin:0 0 12px;font-size:1.15rem}
+label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+.f{width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg)}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.res div{background:var(--bg);border-radius:10px;padding:10px}
+.res small{color:var(--muted);display:block;font-size:.75rem}
+.res b{font-size:1.15rem;color:var(--acc)}
+#disp{width:100%;font-size:1.6rem;text-align:right;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);margin-bottom:4px}
+#out{text-align:right;color:var(--muted);min-height:1.4em;margin-bottom:8px}
+.keys{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.keys button{padding:12px 0;border-radius:10px;border:1px solid var(--bd);background:var(--bg);transition:.15s}
+.keys button:hover{border-color:var(--acc)}
+.keys .op{color:var(--acc);font-weight:600}
+.keys .eq{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt.ok{background:#2e9e5b;color:#fff;border-color:#2e9e5b}
+.opt.bad{background:#c8453f;color:#fff;border-color:#c8453f}
+.big{font-size:2.4rem;font-weight:700;text-align:center;margin:10px 0}
+.btn{background:var(--acc);color:var(--accfg);border:0;border-radius:10px;padding:10px 18px;font-weight:600}
+#ov{position:fixed;inset:0;background:rgba(5,12,20,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:50;backdrop-filter:blur(4px)}
+#ov.on{display:flex}
+#md{background:var(--surf);border-radius:18px;max-width:640px;width:100%;max-height:92vh;overflow:auto;box-shadow:var(--sh);animation:pop .22s ease}
+@keyframes pop{from{transform:scale(.92);opacity:0}}
+.mh{background:var(--c);color:#10202e;padding:20px;display:flex;gap:18px;align-items:center;position:relative}
+.mh .sym{font-size:4.2rem;font-weight:700;line-height:1}
+.mh h3{margin:0;font-size:1.6rem}
+.mh p{margin:2px 0 0;opacity:.8}
+.x{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.55);border:0;border-radius:8px;width:34px;height:34px;color:#10202e}
+.mb{padding:20px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.facts div{background:var(--bg);border-radius:10px;padding:10px}
+.facts small{display:block;color:var(--muted);font-size:.74rem}
+.nav2{display:flex;justify-content:space-between;margin-top:14px}
+@media (max-width:640px){main{padding:12px}.el .nm,.el .m{display:none}.el{aspect-ratio:1}.keys button{padding:10px 0}}
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .6s,visibility .6s;cursor:pointer}
+#splash.out{opacity:0;visibility:hidden}
+#splash small{color:var(--muted);letter-spacing:.04em;animation:sp 1s .1s both}
+#splash h2{font-size:clamp(2rem,9vw,4rem);margin:14px 0 6px;font-weight:700;letter-spacing:-.02em;color:var(--text);animation:sp 1s .5s both}
+#splash p{margin:0;color:var(--acc);font-size:1.1rem;animation:sp 1s 1s both}
+#splash .ld{width:min(240px,60vw);height:4px;border-radius:4px;background:var(--bd);margin-top:32px;overflow:hidden}
+#splash .ld i{display:block;height:100%;width:100%;background:var(--acc);transform-origin:left;animation:ld 2.4s ease-out both}
+@keyframes sp{from{opacity:0;transform:translateY(14px)}}
+@keyframes ld{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="splash" role="status" aria-label="Loading"><small>Periodic Table Lab</small><h2>Ibragimova Hadicha</h2><p>9th grade, MMT school</p><div class="ld"><i></i></div></div>
+<header>
+<h1>Periodic Table Lab</h1>
+<nav role="tablist" id="tabs"></nav>
+<div class="tools"><button class="ic" id="snd" aria-pressed="true" title="Toggle sound">Sound on</button><button class="ic" id="thm" title="Toggle theme">Theme</button></div>
+</header>
+<main>
+<section id="t-table" class="on">
+<div class="bar"><input type="search" id="q" placeholder="Search name, symbol or number" aria-label="Search elements"><span id="blocks"></span></div>
+<div class="bar" id="cats"></div>
+<div class="wrap"><div id="grid"></div></div>
+</section>
+<section id="t-calc">
+<div class="card" style="max-width:480px;margin:auto">
+<h2>Scientific calculator</h2>
+<input id="disp" placeholder="0" aria-label="Expression" autocomplete="off"><div id="out"></div>
+<div class="keys" id="keys"></div>
+</div>
+</section>
+<section id="t-mol">
+<div class="grid2">
+<div class="card"><h2>Find concentration</h2>
+<label>Formula (optional, e.g. NaCl, Ca(OH)2)</label><input class="f" id="fm" placeholder="H2SO4">
+<label>Molar mass (g/mol)</label><input class="f" id="mm" type="number" step="any">
+<label>Mass of solute (g)</label><input class="f" id="ms" type="number" step="any">
+<label>Solution volume (mL)</label><input class="f" id="vl" type="number" step="any">
+<div class="res"><div><small>Moles</small><b id="r1">-</b></div><div><small>Molarity (mol/L)</small><b id="r2">-</b></div><div><small>% m/v</small><b id="r3">-</b></div><div><small>g/L</small><b id="r4">-</b></div></div></div>
+<div class="card"><h2>Prepare a solution</h2>
+<label>Molar mass (g/mol)</label><input class="f" id="pm" type="number" step="any">
+<label>Target volume (mL)</label><input class="f" id="pv" type="number" step="any">
+<label>Target molarity (mol/L)</label><input class="f" id="pc" type="number" step="any">
+<label>or target % m/v</label><input class="f" id="pp" type="number" step="any">
+<div class="res"><div><small>Mass needed (g)</small><b id="p1">-</b></div><div><small>Moles needed</small><b id="p2">-</b></div></div>
+<p style="color:var(--muted);font-size:.85rem">Molarity = moles ÷ litres. % m/v = grams of solute per 100 mL of solution. Fill molarity or % m/v, not both.</p></div>
+</div></section>
+<section id="t-quiz"><div class="card" style="max-width:560px;margin:auto" id="quiz"></div></section>
+<section id="t-about"><div class="card" style="max-width:700px;margin:auto"><h2>About</h2>
+<p>Periodic Table Lab is a study tool for chemistry students. Browse all 118 elements, open a tile for details, and hear a note for each one.</p>
+<p>Use the search box and the category or block buttons to focus on part of the table. The calculator handles arithmetic and trigonometry in degrees or radians. The solution tool computes molarity and % m/v and works out how much solute to weigh. The quiz tests symbols, names and atomic numbers.</p>
+<p>Electron configurations follow the Madelung filling order with the usual experimental exceptions. Atomic masses are rounded standard values; for the heaviest synthetic elements the mass number of the longest-lived isotope is shown. Elements 109 to 118 have few measured properties, so their category is predicted.</p>
+<p style="color:var(--muted)">Keyboard: press Esc to close a panel, and use the arrow keys to move between elements while it is open.</p><h2 style="margin-top:24px">Creator</h2><p>This website was created by <b>Ibragimova Hadicha</b>, a 9th grade student at MMT school.</p></div></section>
+</main>
+<footer style="text-align:center;color:var(--muted);font-size:.85rem;padding:8px 16px 24px">Created by Ibragimova Hadicha, 9th grade student, MMT school</footer>
+<div id="ov" role="dialog" aria-modal="true" aria-label="Element details"><div id="md"></div></div>
+<script>
+const RAW="H Hydrogen 1.008 1766;He Helium 4.0026 1895;Li Lithium 6.94 1817;Be Beryllium 9.0122 1798;B Boron 10.81 1808;C Carbon 12.011 0;N Nitrogen 14.007 1772;O Oxygen 15.999 1774;F Fluorine 18.998 1886;Ne Neon 20.180 1898;Na Sodium 22.990 1807;Mg Magnesium 24.305 1755;Al Aluminium 26.982 1825;Si Silicon 28.085 1824;P Phosphorus 30.974 1669;S Sulfur 32.06 0;Cl Chlorine 35.45 1774;Ar Argon 39.948 1894;K Potassium 39.098 1807;Ca Calcium 40.078 1808;Sc Scandium 44.956 1879;Ti Titanium 47.867 1791;V Vanadium 50.942 1801;Cr Chromium 51.996 1797;Mn Manganese 54.938 1774;Fe Iron 55.845 0;Co Cobalt 58.933 1735;Ni Nickel 58.693 1751;Cu Copper 63.546 0;Zn Zinc 65.38 1746;Ga Gallium 69.723 1875;Ge Germanium 72.630 1886;As Arsenic 74.922 1250;Se Selenium 78.971 1817;Br Bromine 79.904 1826;Kr Krypton 83.798 1898;Rb Rubidium 85.468 1861;Sr Strontium 87.62 1790;Y Yttrium 88.906 1794;Zr Zirconium 91.224 1789;Nb Niobium 92.906 1801;Mo Molybdenum 95.95 1781;Tc Technetium 98 1937;Ru Ruthenium 101.07 1844;Rh Rhodium 102.91 1803;Pd Palladium 106.42 1803;Ag Silver 107.87 0;Cd Cadmium 112.41 1817;In Indium 114.82 1863;Sn Tin 118.71 0;Sb Antimony 121.76 0;Te Tellurium 127.60 1782;I Iodine 126.90 1811;Xe Xenon 131.29 1898;Cs Caesium 132.91 1860;Ba Barium 137.33 1808;La Lanthanum 138.91 1839;Ce Cerium 140.12 1803;Pr Praseodymium 140.91 1885;Nd Neodymium 144.24 1885;Pm Promethium 145 1945;Sm Samarium 150.36 1879;Eu Europium 151.96 1901;Gd Gadolinium 157.25 1880;Tb Terbium 158.93 1843;Dy Dysprosium 162.50 1886;Ho Holmium 164.93 1878;Er Erbium 167.26 1843;Tm Thulium 168.93 1879;Yb Ytterbium 173.05 1878;Lu Lutetium 174.97 1907;Hf Hafnium 178.49 1923;Ta Tantalum 180.95 1802;W Tungsten 183.84 1783;Re Rhenium 186.21 1925;Os Osmium 190.23 1803;Ir Iridium 192.22 1803;Pt Platinum 195.08 1735;Au Gold 196.97 0;Hg Mercury 200.59 0;Tl Thallium 204.38 1861;Pb Lead 207.2 0;Bi Bismuth 208.98 1753;Po Polonium 209 1898;At Astatine 210 1940;Rn Radon 222 1900;Fr Francium 223 1939;Ra Radium 226 1898;Ac Actinium 227 1899;Th Thorium 232.04 1829;Pa Protactinium 231.04 1913;U Uranium 238.03 1789;Np Neptunium 237 1940;Pu Plutonium 244 1940;Am Americium 243 1944;Cm Curium 247 1944;Bk Berkelium 247 1949;Cf Californium 251 1950;Es Einsteinium 252 1952;Fm Fermium 257 1952;Md Mendelevium 258 1955;No Nobelium 259 1966;Lr Lawrencium 266 1961;Rf Rutherfordium 267 1969;Db Dubnium 268 1970;Sg Seaborgium 269 1974;Bh Bohrium 270 1981;Hs Hassium 277 1984;Mt Meitnerium 278 1982;Ds Darmstadtium 281 1994;Rg Roentgenium 282 1994;Cn Copernicium 285 1996;Nh Nihonium 286 2003;Fl Flerovium 289 1998;Mc Moscovium 290 2003;Lv Livermorium 293 2000;Ts Tennessine 294 2010;Og Oganesson 294 2002";
+const CATS={ak:["Alkali metal","--ak"],ae:["Alkaline earth metal","--ae"],tm:["Transition metal","--tm"],pt:["Post-transition metal","--pt"],mt:["Metalloid","--mt"],nm:["Nonmetal","--nm"],hl:["Halogen","--hl"],ng:["Noble gas","--ng"],ln:["Lanthanide","--ln"],ac:["Actinide","--ac"]};
+const NG=[2,10,18,36,54,86,118],EX={24:"[Ar] 3d5 4s1",29:"[Ar] 3d10 4s1",41:"[Kr] 4d4 5s1",42:"[Kr] 4d5 5s1",44:"[Kr] 4d7 5s1",45:"[Kr] 4d8 5s1",46:"[Kr] 4d10",47:"[Kr] 4d10 5s1",57:"[Xe] 5d1 6s2",58:"[Xe] 4f1 5d1 6s2",64:"[Xe] 4f7 5d1 6s2",78:"[Xe] 4f14 5d9 6s1",79:"[Xe] 4f14 5d10 6s1",89:"[Rn] 6d1 7s2",90:"[Rn] 6d2 7s2",91:"[Rn] 5f2 6d1 7s2",92:"[Rn] 5f3 6d1 7s2",93:"[Rn] 5f4 6d1 7s2",96:"[Rn] 5f7 6d1 7s2"};
+const FACT={1:"The lightest and most abundant element in the universe.",2:"Second lightest element, used to cool MRI magnets.",6:"The backbone of all known life and of millions of compounds.",7:"Makes up about 78% of Earth’s atmosphere.",8:"Essential for respiration and combustion.",11:"Reacts violently with water; a component of table salt.",13:"The most abundant metal in Earth’s crust.",14:"The basis of sand, glass and modern electronics.",17:"Used to disinfect drinking water.",26:"The core of steel and of Earth itself.",29:"One of the first metals worked by humans; an excellent conductor.",47:"The best electrical conductor of all metals.",79:"Prized for its inertness and lustre.",80:"The only metal that is liquid at room temperature.",82:"Dense and soft; once common in pipes and paint.",92:"Fuel for nuclear reactors; the heaviest naturally abundant element.",20:"Builds bones, teeth and shells.",35:"One of only two elements that are liquid at room temperature."};
+const E=RAW.split(";").map((s,i)=>{const[sym,name,m,y]=s.split(" "),z=i+1;let c;
+ if(NG.includes(z))c="ng";else if([9,17,35,53,85,117].includes(z))c="hl";else if([5,14,32,33,51,52].includes(z))c="mt";else if([1,6,7,8,15,16,34].includes(z))c="nm";else if([3,11,19,37,55,87].includes(z))c="ak";else if([4,12,20,38,56,88].includes(z))c="ae";else if(z>=57&&z<=71)c="ln";else if(z>=89&&z<=103)c="ac";else if([13,31,49,50,81,82,83,84,113,114,115,116].includes(z))c="pt";else c="tm";
+ const p=NG.findIndex(n=>z<=n)+1,base=p>1?NG[p-2]:0,f=(z>=57&&z<=71)||(z>=89&&z<=103);
+ let row=p,col;
+ if(p==1)col=z==1?1:18;else if(p<=3)col=z-base<=2?z-base:z-base+10;else if(p<=5)col=z-base;
+ else{const k=z-base-1;if(k<2)col=k+1;else if(k<17){row=p+3;col=k-2+3}else col=k-17+4}
+ const state=z>=104?"unknown":[80,35].includes(z)?"liquid":[1,2,7,8,9,10,17,18,36,54,86].includes(z)?"gas":"solid";
+ const block=f?"f":(col<=2||z==2)?"s":col>=13?"p":"d";
+ return{z,sym,name,m:+m,ms:m,y:+y,c,p,row,col,state,block,g:f?"-":col}});
+const bySym=Object.fromEntries(E.map(e=>[e.sym,e]));
+const ORD="1s 2s 2p 3s 3p 4s 3d 4p 5s 4d 5p 6s 4f 5d 6p 7s 5f 6d 7p".split(" ");
+function fill(z){const o=[];for(const s of ORD){if(z<=0)break;const cap=4*"spdf".indexOf(s[1])+2,n=Math.min(cap,z);o.push(s+n);z-=n}return o}
+function config(z){if(EX[z])return EX[z];if(z<=2)return fill(z).join(" ");const ni=NG.filter(n=>n<z).pop();if(!ni)return fill(z).join(" ");return"["+bySym_z(ni)+"] "+fill(z).slice(fill(ni).length).join(" ")}
+function bySym_z(z){return E[z-1].sym}
+const $=s=>document.querySelector(s),cv=(c)=>getComputedStyle(document.documentElement).getPropertyValue(c);
+let cat=null,blk=null,sound=true,ac;
+/* sound */
+function tone(z){if(!sound)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const sc=[0,2,4,7,9],nt=sc[z%5]+12*(Math.floor(z/5)%3),f=261.63*Math.pow(2,nt/12),o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+o.type="triangle";o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.25,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.6);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.65)}catch(e){}}
+/* table */
+const grid=$("#grid");
+grid.insertAdjacentHTML("beforeend",'<div class="hint"><b>118 elements</b>Select a tile for details. Search or filter to highlight part of the table.</div><div class="ph" style="grid-row:6;grid-column:3">57–71</div><div class="ph" style="grid-row:7;grid-column:3">89–103</div>');
+E.forEach(e=>{const b=document.createElement("button");b.className="el";b.dataset.z=e.z;b.style.cssText=`grid-row:${e.row};grid-column:${e.col};--c:var(${CATS[e.c][1]})`;b.setAttribute("aria-label",e.name);
+b.innerHTML=`<span class="n">${e.z}</span><span class="s">${e.sym}</span><span class="nm">${e.name}</span><span class="m">${e.ms}</span>`;b.onclick=()=>open(e.z);b.onmouseenter=()=>{};grid.append(b)});
+$("#cats").innerHTML=Object.entries(CATS).map(([k,v])=>`<button class="chip" data-c="${k}" aria-pressed="false"><i style="background:var(${v[1]})"></i>${v[0]}</button>`).join("");
+$("#blocks").innerHTML=["s","p","d","f"].map(b=>`<button class="chip" data-b="${b}" aria-pressed="false">${b}-block</button>`).join(" ");
+$("#cats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;cat=cat==b.dataset.c?null:b.dataset.c;apply()};
+$("#blocks").onclick=e=>{const b=e.target.closest("[data-b]");if(!b)return;blk=blk==b.dataset.b?null:b.dataset.b;apply()};
+$("#q").oninput=apply;
+function apply(){const q=$("#q").value.trim().toLowerCase();
+document.querySelectorAll("[data-c]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c==cat));document.querySelectorAll("[data-b]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.b==blk));
+document.querySelectorAll(".el").forEach(t=>{const e=E[t.dataset.z-1];const ok=(!cat||e.c==cat)&&(!blk||e.block==blk)&&(!q||e.name.toLowerCase().includes(q)||e.sym.toLowerCase().startsWith(q)||String(e.z)==q);t.classList.toggle("dim",!ok)})}
+/* modal */
+let cur=1;
+function open(z){cur=z;const e=E[z-1],syn=z==43||z==61||z>=93;
+const desc=`${e.name} (${e.sym}) is element ${z}, a ${CATS[e.c][0].toLowerCase()} in period ${e.p}${e.g=="-"?" of the f-block":", group "+e.g}. ${FACT[z]||(syn?"It is a synthetic, radioactive element.":"")} ${z>=109?"Its properties are largely predicted rather than measured.":""}`;
+$("#md").innerHTML=`<div class="mh" style="--c:var(${CATS[e.c][1]})"><button class="x" aria-label="Close" id="cl">✕</button><div class="sym">${e.sym}</div><div><h3>${e.name}</h3><p>${CATS[e.c][0]}</p></div></div>
+<div class="mb"><div class="facts"><div><small>Atomic number</small><b>${z}</b></div><div><small>Atomic mass</small><b>${e.ms}</b></div><div><small>State at room temp.</small><b>${e.state}</b></div><div><small>Discovered</small><b>${e.y?e.y:"Ancient times"}</b></div><div><small>Group / period / block</small><b>${e.g} / ${e.p} / ${e.block}</b></div></div>
+<div class="facts"><div style="grid-column:1/-1"><small>Electron configuration</small><b>${config(z)}</b></div></div><p>${desc}</p>
+<div class="nav2"><button class="chip" id="pv2">‹ ${z>1?E[z-2].sym:""}</button><button class="chip" id="nx">${z<118?E[z].sym:""} ›</button></div></div>`;
+$("#ov").classList.add("on");$("#cl").onclick=close;$("#pv2").onclick=()=>z>1&&open(z-1);$("#nx").onclick=()=>z<118&&open(z+1);tone(z)}
+function close(){$("#ov").classList.remove("on")}
+$("#ov").onclick=e=>{if(e.target.id=="ov")close()};
+document.addEventListener("keydown",e=>{if(!$("#ov").classList.contains("on"))return;if(e.key=="Escape")close();if(e.key=="ArrowRight"&&cur<118)open(cur+1);if(e.key=="ArrowLeft"&&cur>1)open(cur-1)});
+/* tabs, theme, sound */
+const TABS=[["table","Periodic table"],["calc","Calculator"],["mol","Solutions"],["quiz","Quiz"],["about","About"]];
+$("#tabs").innerHTML=TABS.map(([k,n],i)=>`<button role="tab" data-t="${k}" aria-selected="${!i}">${n}</button>`).join("");
+$("#tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;document.querySelectorAll("#tabs button").forEach(x=>x.setAttribute("aria-selected",x==b));document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id=="t-"+b.dataset.t))};
+$("#snd").onclick=()=>{sound=!sound;$("#snd").setAttribute("aria-pressed",sound);$("#snd").textContent=sound?"Sound on":"Sound off";tone(12)};
+function theme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem("pt-theme",t)}catch(e){}}
+$("#thm").onclick=()=>{const d=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");theme(d=="dark"?"light":"dark")};
+try{const t=localStorage.getItem("pt-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+/* calculator */
+let deg=true,ans=0;
+const KEYS=["sin(","cos(","tan(","log(","ln(","√(","π","e","(",")","^","C","7","8","9","÷","⌫","DEG","4","5","6","×","ans","%","1","2","3","−","+","0",".","EXP","=","+/-"];
+$("#keys").innerHTML=KEYS.map(k=>`<button class="${"÷×−+^".includes(k)?"op":""} ${k=="="?"eq":""}">${k}</button>`).join("");
+const disp=$("#disp");
+$("#keys").onclick=e=>{const k=e.target.textContent;if(e.target.tagName!="BUTTON")return;
+if(k=="C"){disp.value="";$("#out").textContent=""}else if(k=="⌫")disp.value=disp.value.slice(0,-1);else if(k=="=")calc();
+else if(k=="DEG"||k=="RAD"){deg=!deg;e.target.textContent=deg?"DEG":"RAD"}else if(k=="EXP")disp.value+="*10^";else if(k=="+/-")disp.value=disp.value.startsWith("-")?disp.value.slice(1):"-"+disp.value;else disp.value+=k};
+disp.onkeydown=e=>{if(e.key=="Enter")calc()};
+function calc(){try{const M={sin:"S",cos:"C",tan:"T",log:"Math.log10",ln:"Math.log",sqrt:"Math.sqrt",PI:"Math.PI",e:"Math.E",ans:"("+ans+")"};
+let s=disp.value.replace(/π/g,"PI").replace(/√/g,"sqrt").replace(/÷/g,"/").replace(/×/g,"*").replace(/−/g,"-").replace(/\^/g,"**").replace(/(\d+(\.\d+)?)%/g,"($1/100)").replace(/[A-Za-z]+/g,m=>{if(!(m in M))throw 0;return M[m]});
+if(!/^[\w+\-*/().,\s]*$/.test(s))throw 0;
+const S=x=>Math.sin(deg?x*Math.PI/180:x),C=x=>Math.cos(deg?x*Math.PI/180:x),T=x=>Math.tan(deg?x*Math.PI/180:x);
+const r=Function("S","C","T",`"use strict";return (${s})`)(S,C,T);if(!isFinite(r))throw 0;ans=+r.toPrecision(12);$("#out").textContent=disp.value+" =";disp.value=ans}catch(e){$("#out").textContent="Invalid expression. Check brackets and operators."}}
+/* solutions */
+function molar(f){let i=0;const num=()=>{const m=/^\d+/.exec(f.slice(i));if(m){i+=m[0].length;return+m[0]}return 1};
+const grp=()=>{let t=0;while(i<f.length){const c=f[i];if(c=="("){i++;const s=grp();i++;t+=s*num()}else if(c==")")break;else{const m=/^[A-Z][a-z]?/.exec(f.slice(i));if(!m||!bySym[m[0]])throw 0;i+=m[0].length;t+=bySym[m[0]].m*num()}}return t};return grp()}
+const fmt=x=>isFinite(x)&&x!==""?(+x.toPrecision(4)).toString():"-",v=id=>parseFloat($(id).value);
+$("#fm").oninput=()=>{try{const m=molar($("#fm").value.trim());$("#mm").value=m?m.toFixed(3):"";$("#pm").value=m?m.toFixed(3):""}catch(e){}upd()};
+function upd(){const M=v("#mm"),g=v("#ms"),V=v("#vl")/1000,mol=g/M;$("#r1").textContent=fmt(mol);$("#r2").textContent=fmt(mol/V);$("#r3").textContent=fmt(g/(V*1000)*100);$("#r4").textContent=fmt(g/V);
+const pm=v("#pm"),pV=v("#pv")/1000,pc=v("#pc"),pp=v("#pp");let mol2=NaN,g2=NaN;if(pc>0){mol2=pc*pV;g2=mol2*pm}else if(pp>0){g2=pp*pV*10;mol2=g2/pm}$("#p1").textContent=fmt(g2);$("#p2").textContent=fmt(mol2)}
+["#mm","#ms","#vl","#pm","#pv","#pc","#pp"].forEach(s=>$(s).oninput=upd);
+/* quiz */
+let Q;const rnd=n=>Math.floor(Math.random()*n);
+const MODES=[["Symbol → name","sn"],["Name → symbol","ns"],["Number → name","zn"]];
+function qMenu(){$("#quiz").innerHTML=`<h2>Element quiz</h2><p>Ten questions. Pick a mode to start.</p>`+MODES.map(m=>`<button class="opt" data-m="${m[1]}">${m[0]}</button>`).join("");$("#quiz").onclick=e=>{const b=e.target.closest("[data-m]");if(b){Q={m:b.dataset.m,i:0,s:0,st:0,best:0};nextQ()}}}
+function nextQ(){if(Q.i>=10){$("#quiz").innerHTML=`<h2>Finished</h2><div class="big">${Q.s} / 10</div><p style="text-align:center">Best streak: ${Q.best}. ${Q.s>=9?"Excellent recall.":Q.s>=6?"Good work. Review the ones you missed.":"Keep practising; try the table with sound on."}</p><button class="btn" id="again">Play again</button>`;$("#again").onclick=qMenu;$("#quiz").onclick=null;return}
+const e=E[rnd(118)],opts=[e];while(opts.length<4){const o=E[rnd(118)];if(!opts.includes(o))opts.push(o)}opts.sort(()=>Math.random()-.5);
+const ask=Q.m=="sn"?`What is the name of the element with symbol <b>${e.sym}</b>?`:Q.m=="ns"?`What is the symbol for <b>${e.name}</b>?`:`Which element has atomic number <b>${e.z}</b>?`;
+const lab=o=>Q.m=="ns"?o.sym:o.name;
+$("#quiz").innerHTML=`<small style="color:var(--muted)">Question ${Q.i+1} of 10. Score ${Q.s}. Streak ${Q.st}</small><div class="big" style="font-size:1.4rem;margin:14px 0">${ask}</div>`+opts.map(o=>`<button class="opt" data-z="${o.z}">${lab(o)}</button>`).join("");
+$("#quiz").onclick=ev=>{const b=ev.target.closest("[data-z]");if(!b||b.disabled)return;const ok=+b.dataset.z==e.z;
+document.querySelectorAll("#quiz .opt").forEach(x=>{x.disabled=true;if(+x.dataset.z==e.z)x.classList.add("ok")});if(ok){Q.s++;Q.st++;Q.best=Math.max(Q.best,Q.st);tone(e.z)}else{b.classList.add("bad");Q.st=0}
+Q.i++;$("#quiz").insertAdjacentHTML("beforeend",`<button class="btn" id="nq" style="margin-top:10px">${Q.i>=10?"See results":"Next question"}</button>`);$("#nq").onclick=nextQ}}
+qMenu();
+(function(){const s=$("#splash");let done=false;const hide=()=>{if(done)return;done=true;s.classList.add("out");setTimeout(()=>s.remove(),700)};setTimeout(hide,2600);s.onclick=hide})();
+</script>
+</body>
+</html>
